@@ -1,0 +1,304 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.wallet-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1.1rem;
+}
+
+.wallet-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pill {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #0d1218;
+  font-size: 0.9rem;
+}
+
+.earnings {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.earnings strong {
+  color: var(--accent-2);
+}
+
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  width: 100%;
+}
+
+.lede {
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.25rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card h2,
+.feed h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.form input,
+.form textarea {
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #0d1218;
+  color: var(--text);
+  padding: 0.55rem 0.65rem;
+  font: inherit;
+}
+
+.form input:disabled,
+.form textarea:disabled {
+  opacity: 0.55;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #2a6bff, #5ad4ff);
+  color: #041018;
+  font-weight: 600;
+}
+
+.btn.secondary {
+  background: #1a2433;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn.ghost {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--border);
+}
+
+.btn.like {
+  background: #1a2433;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn.like.liked {
+  border-color: #6b3048;
+  background: #24141c;
+}
+
+.btn.inline {
+  margin-left: 0.75rem;
+}
+
+.banner {
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border);
+}
+
+.banner.warn {
+  background: var(--warn-bg);
+  border-color: var(--warn-border);
+}
+
+.banner.error {
+  background: #2a1214;
+  border-color: #5c2229;
+  color: #ffc9c9;
+}
+
+.banner.success {
+  background: #10231a;
+  border-color: #1f5c3a;
+  color: #c9ffe8;
+}
+
+.banner.info {
+  background: #101f2a;
+  border-color: #1f4a5c;
+}
+
+.form-status {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+}
+
+.form-status.error {
+  color: var(--danger);
+}
+
+.form-status.success {
+  color: var(--accent-2);
+}
+
+.inline-error {
+  margin: 0.5rem 0 0;
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.feed {
+  margin-top: 0.5rem;
+}
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.post-card {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) 1fr;
+  gap: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+@media (max-width: 720px) {
+  .post-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+.post-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  object-fit: cover;
+  display: block;
+  background: #0d1218;
+}
+
+.image-fallback {
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  background: #0d1218;
+  font-size: 0.9rem;
+}
+
+.post-body {
+  padding: 1rem 1rem 1rem 0;
+}
+
+@media (max-width: 720px) {
+  .post-body {
+    padding: 0 1rem 1rem;
+  }
+}
+
+.post-caption {
+  margin: 0 0 0.75rem;
+  white-space: pre-wrap;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/*
+  Disabled buttons often do not show `title` tooltips and steal hover hits.
+  Turning off pointer events on the disabled button lets the wrapper receive
+  hover so the span's `title` can appear (Chrome / Firefox / Edge).
+*/
+.like-button-wrap {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.like-button-wrap:has(button:disabled) {
+  cursor: help;
+}
+
+.like-button-wrap button:disabled {
+  pointer-events: none;
+}

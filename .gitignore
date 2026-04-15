@@ -1,0 +1,15 @@
+node_modules
+hardhat/node_modules
+frontend/node_modules
+
+hardhat/.env
+frontend/.env
+frontend/.env.local
+
+hardhat/cache
+hardhat/artifacts
+hardhat/typechain-types
+
+frontend/dist
+.DS_Store
+*.log

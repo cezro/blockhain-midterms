@@ -1,0 +1,9 @@
+{
+  "name": "blockhain-midterms",
+  "private": true,
+  "scripts": {
+    "test:hardhat": "npm --prefix hardhat test",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build"
+  }
+}
