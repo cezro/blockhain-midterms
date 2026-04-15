@@ -150,7 +150,7 @@ npx hardhat verify --network sepolia <YOUR_CONTRACT_ADDRESS>
 ---
 
 ## Submissions
-### Deployed: [blockhain-midterms.vercel.app](blockhain-midterms.vercel.app)
+### Deployed: [blockhain-midterms.vercel.app](https://blockhain-midterms.vercel.app)
 
 ### Evidence (browser + MetaMask)
 <img width="1767" height="419" alt="Screenshot 2026-04-15 143030" src="https://github.com/user-attachments/assets/299cb39f-3bbf-4cce-8cf5-3f2e826715a7" />
