@@ -1,103 +1,185 @@
 # TipPost — Sepolia dApp
 
-Pay-to-like social posts: creators publish an image URL and caption on-chain; likers send **0.0001 ETH** per like to the creator. Smart contract lives in [`hardhat/`](hardhat/); React UI in [`frontend/`](frontend/).
+Pay-to-like social posts on **Ethereum Sepolia**: creators publish an **image URL** and **caption** on-chain; likers send **0.0001 ETH** per like to the creator. This repo is a **monorepo**: smart contract in [`hardhat/`](hardhat/), React + Vite + TypeScript UI in [`frontend/`](frontend/).
 
-## Deployed (fill in after you deploy)
+---
 
-| Item | Value |
-|------|--------|
-| **Sepolia contract** | _Paste your `TipPost` address here_ |
-| **Etherscan (Sepolia)** | `https://sepolia.etherscan.io/address/<YOUR_CONTRACT_ADDRESS>` |
-| **Live app (Vercel)** | _Paste your production URL here_ |
+## Deployed links (submission)
+
+Replace the placeholders below with your real values after deploy and Vercel setup.
+
+| Item                                | Link / value                                                   |
+| ----------------------------------- | -------------------------------------------------------------- |
+| **GitHub repository**               | `https://github.com/<your-username>/<your-repo>`               |
+| **Live app (Vercel)**               | `https://<your-project>.vercel.app`                            |
+| **TipPost contract (Sepolia)**      | `0x…`                                                          |
+| **Contract on Etherscan (Sepolia)** | `https://sepolia.etherscan.io/address/<YOUR_CONTRACT_ADDRESS>` |
+
+---
 
 ## Prerequisites
 
-- Node.js 20+ recommended  
-- MetaMask on **Sepolia** (chain ID `11155111`)  
-- Sepolia ETH for gas + likes (see faucets below)
+- **Node.js** 20+ ([nodejs.org](https://nodejs.org))
+- **MetaMask** ([metamask.io](https://metamask.io)) on **Sepolia** (chain ID **11155111**)
+- **Sepolia ETH** for deploy gas, post creation, and likes (see [Sepolia faucets](#sepolia-eth-faucets))
+- **Infura** or **Alchemy** (or similar) for a **Sepolia HTTPS RPC** URL used by Hardhat deploy
+- **Etherscan API key** (optional, for [contract verification](#verify-on-sepolia-etherscan-bonus))
 
-## Smart contract (Hardhat)
+---
+
+## Local setup
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
+```
+
+Install **Hardhat** and **frontend** dependencies separately:
+
+```bash
+cd hardhat && npm install && cd ..
+cd frontend && npm install && cd ..
+```
+
+From the **repository root** you can run shortcuts (no root `npm install` required; dependencies live in `hardhat/` and `frontend/`):
+
+```bash
+npm run test:hardhat
+```
+
+Root [`package.json`](package.json) defines:
+
+| Script                   | Command                               |
+| ------------------------ | ------------------------------------- |
+| `npm run test:hardhat`   | Runs Hardhat tests in `hardhat/`      |
+| `npm run dev:frontend`   | Starts Vite dev server in `frontend/` |
+| `npm run build:frontend` | Production build of `frontend/`       |
+
+### 2. Smart contract (`hardhat/`)
 
 ```bash
 cd hardhat
 npm install
-npx hardhat test
 npx hardhat compile
+npx hardhat test
 ```
 
-### Configure secrets (never commit)
+**Secrets (never commit):**
 
-1. Copy `hardhat/.env.example` to `hardhat/.env`.
-2. Set `SEPOLIA_RPC_URL`, `PRIVATE_KEY` (deployer), and `ETHERSCAN_API_KEY` (for verification bonus).
+1. Copy [`hardhat/.env.example`](hardhat/.env.example) → `hardhat/.env`.
+2. Set:
+   - `SEPOLIA_RPC_URL` — Sepolia endpoint (not mainnet).
+   - `PRIVATE_KEY` — deployer wallet (use a **test-only** wallet).
+   - `ETHERSCAN_API_KEY` — for verification bonus.
 
-### Deploy to Sepolia
+**Deploy to Sepolia:**
 
 ```bash
 cd hardhat
 npx hardhat run scripts/deploy.ts --network sepolia
 ```
 
-Copy the printed contract address into `frontend/.env` as `VITE_CONTRACT_ADDRESS`, then refresh the ABI if you changed the contract:
+Copy the printed **contract address** into [`frontend/.env`](frontend/.env) as `VITE_CONTRACT_ADDRESS`.
+
+**Keep the ABI in sync** (after any contract change):
 
 ```bash
+# Windows (PowerShell / cmd)
 copy hardhat\artifacts\contracts\TipPost.sol\TipPost.json frontend\src\abi\TipPost.json
+
+# macOS / Linux
+cp hardhat/artifacts/contracts/TipPost.sol/TipPost.json frontend/src/abi/TipPost.json
 ```
 
-_(Use `cp` on macOS/Linux.)_
+### 3. Frontend (`frontend/`)
 
-### Verify on Etherscan (optional +5 bonus)
+```bash
+cd frontend
+cp .env.example .env
+```
+
+Edit **`frontend/.env`**:
+
+```env
+VITE_CONTRACT_ADDRESS=0xYourDeployedTipPostAddress
+# optional; defaults to Sepolia in code:
+VITE_CHAIN_ID=11155111
+```
+
+**Run locally:**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open the URL Vite prints (usually `http://localhost:5173`). Connect MetaMask on **Sepolia**.
+
+**Production build (local check):**
+
+```bash
+cd frontend
+npm run build
+npm run preview
+```
+
+### 4. Deploy frontend to Vercel
+
+1. Push this repo to **GitHub**.
+2. [Vercel](https://vercel.com) → **Add New…** → **Project** → import the repo.
+3. Set **Root Directory** to **`frontend`**.
+4. **Environment variables** (Production + Preview):
+   - `VITE_CONTRACT_ADDRESS` = your deployed TipPost address
+   - `VITE_CHAIN_ID` = `11155111` (optional)
+5. Deploy, then put the **production URL** in the [Deployed links](#deployed-links-submission) table above.
+
+**Netlify (alternative):** base directory `frontend`, build `npm run build`, publish `frontend/dist`, same env vars.
+
+---
+
+## Verify on Sepolia Etherscan (bonus)
+
+After a successful deploy:
 
 ```bash
 cd hardhat
 npx hardhat verify --network sepolia <YOUR_CONTRACT_ADDRESS>
 ```
 
-## Frontend (Vite + React + TypeScript)
-
-```bash
-cd frontend
-cp .env.example .env
-# Edit .env: set VITE_CONTRACT_ADDRESS (and optionally VITE_CHAIN_ID=11155111)
-npm install
-npm run dev
-```
-
-Production build:
-
-```bash
-cd frontend
-npm run build
-```
-
-## Host on Vercel
-
-1. Push this repo to GitHub (public for submission).  
-2. [Vercel](https://vercel.com) → **New Project** → import the repo.  
-3. Set **Root Directory** to `frontend`.  
-4. Environment variables: `VITE_CONTRACT_ADDRESS`, optional `VITE_CHAIN_ID` (`11155111`).  
-5. Deploy; paste the production URL into the table at the top of this README.
-
-## Sepolia ETH faucets
-
-- [Google Cloud Sepolia faucet](https://cloud.google.com/application/web3/faucet/ethereum/sepolia)  
-- [sepoliafaucet.com](https://sepoliafaucet.com)  
-- [Infura Sepolia faucet](https://www.infura.io/faucet/sepolia)
-
 ## Repo layout
 
-- `hardhat/contracts/TipPost.sol` — on-chain posts, likes, and tips  
-- `hardhat/test/` — Hardhat tests (`npx hardhat test`)  
-- `frontend/src/components`, `frontend/src/hooks`, `frontend/src/abi` — UI and contract ABI  
+| Path                                                             | Purpose                                        |
+| ---------------------------------------------------------------- | ---------------------------------------------- |
+| [`hardhat/contracts/TipPost.sol`](hardhat/contracts/TipPost.sol) | Solidity: posts, likes, tips                   |
+| [`hardhat/test/`](hardhat/test/)                                 | Hardhat + TypeScript tests                     |
+| [`hardhat/scripts/deploy.ts`](hardhat/scripts/deploy.ts)         | Deploy script                                  |
+| [`frontend/src/components/`](frontend/src/components/)           | React UI                                       |
+| [`frontend/src/hooks/`](frontend/src/hooks/)                     | Wallet, contract, feed hooks                   |
+| [`frontend/src/abi/TipPost.json`](frontend/src/abi/TipPost.json) | ABI artifact (copy from Hardhat after compile) |
 
-## Monorepo shortcuts (from repository root)
+---
 
-```bash
-npm run test:hardhat
-npm run dev:frontend
-npm run build:frontend
-```
+## Submission checklist (grader-facing)
 
-## Security
+Turn in everything below. Put **screenshots or a short screen recording** in your submission (LMS attachment, Google Drive link, or a `docs/screenshots/` folder in the repo—follow your course instructions).
 
-- Do **not** commit `hardhat/.env`, `frontend/.env`, or private keys.  
-- Use a **dedicated test wallet** with no mainnet funds.
+### Links and addresses
+
+- **Live frontend** — Vercel or Netlify production URL in the table.
+- **Deployed contract** — TipPost address on **Sepolia** in the table (+ Etherscan link).
+
+### Evidence (browser + MetaMask)
+
+- **Live URL in browser** with **MetaMask connected** on **Sepolia** (chain ID 11155111).
+- **Post on the feed** with an **image visible** (image URL + caption you created).
+- **Like transaction in MetaMask** — confirmation UI showing **0.0001 ETH** (value sent to the contract/creator flow your app uses).
+- **After the like** — **like count** and **creator earnings** (or equivalent UI) **updated** on the feed.
+- **Double-like blocked** — attempt to like the same post again shows an **error message** (expected revert / app-handled error).
+
+### Tests and README
+
+- [ ] **Hardhat tests** — screenshot of terminal after `cd hardhat && npx hardhat test` with **all tests passing**.
+- [ ] **README** — this file includes **local setup** ([Local setup](#local-setup)) and **filled-in deployed links** ([Deployed links](#deployed-links-submission)).
