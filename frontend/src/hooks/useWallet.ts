@@ -1,5 +1,5 @@
 import { BrowserProvider, type Eip1193Provider } from "ethers";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getUserFriendlyError } from "../utils/errors";
 
 type InjectedProvider = Eip1193Provider & {
@@ -18,6 +18,8 @@ export function useWallet() {
   const [chainId, setChainId] = useState<bigint | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
+  /** MetaMask has no standard disconnect; we hide the session until user clicks Connect again. */
+  const manuallyDisconnected = useRef(false);
 
   // Recreate when `chainId` changes so we never keep a BrowserProvider tied to a stale network
   // after MetaMask switches chains (avoids ethers v6 NETWORK_ERROR "network changed: X => Y").
@@ -38,6 +40,10 @@ export function useWallet() {
   const refreshAccounts = useCallback(async () => {
     const eth = getEthereum();
     if (!eth) return;
+    if (manuallyDisconnected.current) {
+      setAccount(null);
+      return;
+    }
     const accounts = (await eth.request({ method: "eth_accounts" })) as string[];
     setAccount(accounts[0] ?? null);
   }, []);
@@ -50,6 +56,10 @@ export function useWallet() {
     void refreshAccounts();
 
     const onAccounts = (...args: unknown[]) => {
+      if (manuallyDisconnected.current) {
+        setAccount(null);
+        return;
+      }
       const accs = args[0] as string[];
       setAccount(accs[0] ?? null);
     };
@@ -69,6 +79,7 @@ export function useWallet() {
 
   const connect = useCallback(async () => {
     setError(null);
+    manuallyDisconnected.current = false;
     const eth = getEthereum();
     if (!eth) {
       setError("MetaMask (or an injected wallet) was not found.");
@@ -86,6 +97,12 @@ export function useWallet() {
     }
   }, [refreshAccounts, refreshChain]);
 
+  const disconnect = useCallback(() => {
+    manuallyDisconnected.current = true;
+    setAccount(null);
+    setError(null);
+  }, []);
+
   return {
     ethereum: getEthereum(),
     provider,
@@ -94,6 +111,7 @@ export function useWallet() {
     error,
     isConnecting,
     connect,
+    disconnect,
     refreshChain,
   };
 }

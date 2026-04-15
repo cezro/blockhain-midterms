@@ -4,11 +4,19 @@ type Props = {
   account: string | null;
   isConnecting: boolean;
   onConnect: () => void;
+  onDisconnect: () => void;
   earningsEth: string;
   earningsLoading: boolean;
 };
 
-export function WalletBar({ account, isConnecting, onConnect, earningsEth, earningsLoading }: Props) {
+export function WalletBar({
+  account,
+  isConnecting,
+  onConnect,
+  onDisconnect,
+  earningsEth,
+  earningsLoading,
+}: Props) {
   return (
     <header className="wallet-bar">
       <div className="brand">TipPost</div>
@@ -18,6 +26,9 @@ export function WalletBar({ account, isConnecting, onConnect, earningsEth, earni
             <span className="pill" title={account}>
               {shortenAddress(account, 6)}
             </span>
+            <button type="button" className="btn secondary wallet-disconnect" onClick={onDisconnect}>
+              Disconnect
+            </button>
             <span className="earnings" title="Total ETH received from tips on your posts">
               Earnings:{" "}
               {earningsLoading ? "…" : <strong>{earningsEth} ETH</strong>}

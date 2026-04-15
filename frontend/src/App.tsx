@@ -18,8 +18,16 @@ function App() {
   const configured = Boolean(getContractAddress());
   const targetChainId = getTargetChainId();
 
-  const { ethereum, provider, account, chainId, error: walletError, isConnecting, connect } =
-    useWallet();
+  const {
+    ethereum,
+    provider,
+    account,
+    chainId,
+    error: walletError,
+    isConnecting,
+    connect,
+    disconnect,
+  } = useWallet();
   const signer = useSigner(provider, account);
 
   const readRunner = provider;
@@ -49,6 +57,7 @@ function App() {
         account={account}
         isConnecting={isConnecting}
         onConnect={connect}
+        onDisconnect={disconnect}
         earningsEth={earningsEth}
         earningsLoading={earningsLoading}
       />
