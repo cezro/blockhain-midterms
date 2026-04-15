@@ -162,24 +162,16 @@ npx hardhat verify --network sepolia <YOUR_CONTRACT_ADDRESS>
 
 ---
 
-## Submission checklist (grader-facing)
+## Submissions
 
-Turn in everything below. Put **screenshots or a short screen recording** in your submission (LMS attachment, Google Drive link, or a `docs/screenshots/` folder in the repo—follow your course instructions).
-
-### Links and addresses
-
-- **Live frontend** — Vercel or Netlify production URL in the table.
-- **Deployed contract** — TipPost address on **Sepolia** in the table (+ Etherscan link).
 
 ### Evidence (browser + MetaMask)
+<img width="1767" height="419" alt="Screenshot 2026-04-15 143030" src="https://github.com/user-attachments/assets/299cb39f-3bbf-4cce-8cf5-3f2e826715a7" />
+<img width="2482" height="1364" alt="Screenshot 2026-04-15 172635" src="https://github.com/user-attachments/assets/6dfabc4b-50a3-4ffd-bbf9-fa0dce164fa7" />
+<img width="2498" height="1455" alt="Screenshot 2026-04-15 172611" src="https://github.com/user-attachments/assets/eb313805-7e63-4ac8-affe-fff8d4fed2d1" />
+<img width="2289" height="1441" alt="Screenshot 2026-04-15 172433" src="https://github.com/user-attachments/assets/e5bb3981-44eb-48c8-b864-aa6a1ef0b528" />
 
-- **Live URL in browser** with **MetaMask connected** on **Sepolia** (chain ID 11155111).
-- **Post on the feed** with an **image visible** (image URL + caption you created).
-- **Like transaction in MetaMask** — confirmation UI showing **0.0001 ETH** (value sent to the contract/creator flow your app uses).
-- **After the like** — **like count** and **creator earnings** (or equivalent UI) **updated** on the feed.
-- **Double-like blocked** — attempt to like the same post again shows an **error message** (expected revert / app-handled error).
+### Tests
 
-### Tests and README
-
-- [ ] **Hardhat tests** — screenshot of terminal after `cd hardhat && npx hardhat test` with **all tests passing**.
-- [ ] **README** — this file includes **local setup** ([Local setup](#local-setup)) and **filled-in deployed links** ([Deployed links](#deployed-links-submission)).
+-  **Hardhat tests** — screenshot of terminal after `cd hardhat && npx hardhat test` with **all tests passing**.
+-  <img width="951" height="514" alt="Screenshot 2026-04-15 172038" src="https://github.com/user-attachments/assets/6f9c19b3-a3dd-4636-868f-9d45c3c96a06" />
