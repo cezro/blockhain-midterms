@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import type { TxState } from "../types/tipPost";
+
+const CAPTION_MAX_HEIGHT_PX = 320;
 
 type Props = {
   disabled: boolean;
@@ -11,6 +13,25 @@ type Props = {
 export function CreatePostForm({ disabled, tx, onSubmit, onResetTx }: Props) {
   const [imageUrl, setImageUrl] = useState("https://picsum.photos/600/400");
   const [caption, setCaption] = useState("");
+  const captionRef = useRef<HTMLTextAreaElement>(null);
+
+  const syncCaptionHeight = useCallback(() => {
+    const el = captionRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    const next = Math.min(el.scrollHeight, CAPTION_MAX_HEIGHT_PX);
+    el.style.height = `${next}px`;
+    el.style.overflowY = el.scrollHeight > CAPTION_MAX_HEIGHT_PX ? "auto" : "hidden";
+  }, []);
+
+  useLayoutEffect(() => {
+    syncCaptionHeight();
+  }, [caption, syncCaptionHeight]);
+
+  useLayoutEffect(() => {
+    window.addEventListener("resize", syncCaptionHeight);
+    return () => window.removeEventListener("resize", syncCaptionHeight);
+  }, [syncCaptionHeight]);
 
   return (
     <section className="card">
@@ -35,10 +56,12 @@ export function CreatePostForm({ disabled, tx, onSubmit, onResetTx }: Props) {
         <label>
           Caption
           <textarea
+            ref={captionRef}
+            className="form-caption"
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
             placeholder="Say something on-chain"
-            rows={3}
+            rows={1}
             disabled={disabled || tx.phase === "pending"}
             required
           />
