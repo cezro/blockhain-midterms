@@ -126,19 +126,6 @@ npm run build
 npm run preview
 ```
 
-### 4. Deploy frontend to Vercel
-
-1. Push this repo to **GitHub**.
-2. [Vercel](https://vercel.com) → **Add New…** → **Project** → import the repo.
-3. Set **Root Directory** to **`frontend`**.
-4. **Environment variables** (Production + Preview):
-   - `VITE_CONTRACT_ADDRESS` = your deployed TipPost address
-   - `VITE_CHAIN_ID` = `11155111` (optional)
-5. Deploy, then put the **production URL** in the [Deployed links](#deployed-links-submission) table above.
-
-**Netlify (alternative):** base directory `frontend`, build `npm run build`, publish `frontend/dist`, same env vars.
-
----
 
 ## Verify on Sepolia Etherscan (bonus)
 
