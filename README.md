@@ -170,6 +170,7 @@ npx hardhat verify --network sepolia <YOUR_CONTRACT_ADDRESS>
 <img width="2482" height="1364" alt="Screenshot 2026-04-15 172635" src="https://github.com/user-attachments/assets/6dfabc4b-50a3-4ffd-bbf9-fa0dce164fa7" />
 <img width="2498" height="1455" alt="Screenshot 2026-04-15 172611" src="https://github.com/user-attachments/assets/eb313805-7e63-4ac8-affe-fff8d4fed2d1" />
 <img width="2289" height="1441" alt="Screenshot 2026-04-15 172433" src="https://github.com/user-attachments/assets/e5bb3981-44eb-48c8-b864-aa6a1ef0b528" />
+<img width="1422" height="259" alt="image" src="https://github.com/user-attachments/assets/e34bab57-c83d-45cf-ab77-61dad3ed35f6" />
 
 ### Tests
 
